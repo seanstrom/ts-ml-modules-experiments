@@ -1,0 +1,14 @@
+{
+  "name": "ts-ml-modules-experiment",
+  "version": "0.0.1",
+  "author": "seanstrom",
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "semi": false
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5",
+    "typescript": "^5.3.3"
+  }
+}

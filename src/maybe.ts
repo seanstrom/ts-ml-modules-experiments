@@ -2,32 +2,33 @@ export type Maybe<A> = Some<A> | None
 export type Type<A> = Maybe<A>
 export type T<A> = Type<A>
 
-enum Tags {
-    None = "Maybe.None",
-    Some = "Maybe.Some",
-}
+const NoneTag: unique symbol = Symbol("Maybe.None")
+const SomeTag: unique symbol = Symbol("Maybe.Some")
+
+export const tags = {
+  None: NoneTag,
+  Some: SomeTag,
+} as const
 
 interface Some<A> {
-    type: Tags.Some
+    type: typeof tags.Some
     value: A
 }
 
 interface None {
-    type: Tags.None
+    type: typeof tags.None
 }
-
-export const tags = Object(Tags)
 
 export function some<A>(value: A): Some<A> {
     return {
-        type: Tags.Some,
+        type: tags.Some,
         value,
     }
 }
 
 export function none(): None {
     return {
-        type: Tags.None,
+        type: tags.None,
     }
 }
 
@@ -38,9 +39,9 @@ export function from<A>(a: A): Maybe<A> {
 
 export function map<A, B>(fn: (a: A) => B, maybe: Maybe<A>): Maybe<B> {
     switch (maybe.type) {
-        case Tags.None:
+        case tags.None:
             return none()
-        case Tags.Some:
+        case tags.Some:
             return some(fn(maybe.value))
     }
 }
@@ -50,9 +51,9 @@ export function andThen<A, B>(
     maybe: Maybe<A>
 ): Maybe<B> {
     switch (maybe.type) {
-        case Tags.None:
+        case tags.None:
             return none()
-        case Tags.Some:
+        case tags.Some:
             return fn(maybe.value)
     }
 }
